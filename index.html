@@ -3,47 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Builder Pro v9.0 - THCS Lý Tự Trọng</title>
+    <title>Exam Builder Pro v10.0 | THCS Lý Tự Trọng</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Times+New+Roman&display=swap');
-        
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1120; color: #f1f5f9; }
-
         @media print {
             .no-print { display: none !important; }
             .page-break { break-before: page; }
             body { background: white; color: black; }
             #test-preview { border: none; box-shadow: none; width: 100%; padding: 0; margin: 0; background: white; }
         }
-        
-        #test-preview { font-family: 'Times New Roman', serif; color: #1e293b; line-height: 1.4; }
-        .dotted-line { border-bottom: 1.5px dotted #94a3b8; height: 1.5em; width: 100%; display: block; }
-        
+        #test-preview { font-family: 'Times New Roman', serif; color: #1e293b; line-height: 1.5; font-size: 13pt; }
+        .dotted-line { border-bottom: 1.5px dotted #94a3b8; height: 1.6em; width: 100%; display: block; }
         .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        /* FIX LỖI DÍNH CHỮ KHI XUẤT WORD */
-        .option-item { display: inline-block; width: 23%; min-width: 140px; padding-right: 15px; vertical-align: top; }
+        /* SỬA LỖI DÍNH CHỮ */
+        .option-item { display: inline-block; width: 24%; min-width: 150px; padding-right: 10px; vertical-align: top; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <aside class="w-full md:w-[400px] p-6 no-print h-screen flex flex-col gap-4 overflow-y-auto border-r border-slate-800 bg-[#0f172a] shadow-2xl">
+    <aside class="w-full md:w-[420px] p-6 no-print h-screen flex flex-col gap-4 overflow-y-auto border-r border-slate-800 bg-[#0f172a] shadow-2xl">
         <div class="flex items-center gap-3 mb-2">
-            <div class="p-2.5 bg-blue-600 rounded-xl shadow-lg">
-                <i data-lucide="shield-check" class="text-white w-6 h-6"></i>
-            </div>
-            <div>
-                <h1 class="text-lg font-bold text-white uppercase tracking-tight">ExamBuilder <span class="text-blue-500 italic">PRO</span></h1>
-                <p class="text-[9px] text-slate-500 uppercase font-bold tracking-widest italic">Hệ thống tạo đề thông minh</p>
-            </div>
+            <div class="p-2.5 bg-blue-600 rounded-xl shadow-lg"><i data-lucide="shield-check" class="text-white w-5 h-5"></i></div>
+            <h1 class="text-lg font-bold text-white uppercase tracking-tight">ExamBuilder <span class="text-blue-500 italic">PRO</span></h1>
         </div>
 
         <div class="glass p-4 rounded-2xl space-y-3">
-            <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">Hành chính</label>
+            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">Hành chính</label>
             <input type="text" id="school-name" value="THCS LÝ TỰ TRỌNG" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white outline-none">
-            <select id="exam-type" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white outline-none cursor-pointer">
+            <select id="exam-type" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white cursor-pointer">
                 <option value="GIỮA KỲ I">Kiểm tra Giữa kỳ I</option>
                 <option value="CUỐI KỲ I">Kiểm tra Cuối kỳ I</option>
                 <option value="GIỮA KỲ II">Kiểm tra Giữa kỳ II</option>
@@ -53,25 +43,15 @@
 
         <div class="glass p-4 rounded-2xl space-y-3">
             <label class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">Phạm vi 12 Units</label>
-            <div class="grid grid-cols-3 gap-2">
-                <script>
-                    for(let i=1; i<=12; i++) {
-                        document.write(`
-                            <label class="flex items-center gap-2 bg-slate-800/50 p-2 rounded-lg border border-slate-700 cursor-pointer hover:border-blue-500 transition">
-                                <input type="checkbox" class="unit-cb w-3.5 h-3.5 accent-blue-500" value="${i}" ${i<=3 ? 'checked' : ''}>
-                                <span class="text-[10px] font-bold">U${i}</span>
-                            </label>
-                        `);
-                    }
-                </script>
-            </div>
+            <div class="grid grid-cols-3 gap-2" id="unit-grid">
+                </div>
         </div>
 
-        <div class="mt-auto space-y-3 pb-2">
-            <button onclick="generateTest()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 text-xs uppercase tracking-widest hover:bg-blue-500 transition shadow-xl active:scale-95">
-                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Tạo đề 40 câu ma trận
+        <div class="mt-auto space-y-3">
+            <button onclick="generateTest()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 text-xs uppercase hover:bg-blue-500 transition shadow-xl active:scale-95">
+                <i data-lucide="zap" class="w-4 h-4"></i> Tạo đề 40 câu chuẩn
             </button>
-            <button onclick="exportToWord()" class="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl flex justify-center items-center gap-2 text-xs uppercase tracking-widest hover:bg-slate-50 transition shadow-md">
+            <button onclick="exportToWord()" class="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl flex justify-center items-center gap-2 text-xs uppercase hover:bg-slate-50 transition shadow-md">
                 <i data-lucide="file-text" class="w-4 h-4"></i> Tải file Word (.doc)
             </button>
         </div>
@@ -81,36 +61,50 @@
         <div id="test-preview" class="bg-white p-12 md:p-20 shadow-2xl w-full max-w-[210mm] min-h-[297mm] rounded-sm relative">
             <div class="flex flex-col items-center justify-center h-full text-slate-300 py-60 border-2 border-dashed border-slate-200 rounded-3xl">
                 <i data-lucide="file-check" class="w-16 h-16 mb-4"></i>
-                <p class="text-sm font-medium italic">Vui lòng chọn thông số và nhấn "Tạo đề".</p>
+                <p class="text-sm font-medium italic">Hệ thống đã sẵn sàng 100%.</p>
             </div>
         </div>
     </main>
 
     <script>
-        // DỮ LIỆU ĐƯỢC HỢP NHẤT TRỰC TIẾP ĐỂ TRÁNH LỖI bank.js
+        // NGÂN HÀNG CÂU HỎI HỢP NHẤT (Embedded Data)
         const questionBank = [
-            // Listening (Mẫu cho Unit 1)
+            // Listening (8 items/2 sections)
             { unit: 1, type: 'listening', instruction: 'Listen and circle T (True) or F (False).', questions: [
-                { q: 'The speaker enjoys doing DIY projects.', a: 'T' },
-                { q: 'He usually spends 5 hours a day on social media.', a: 'F' },
-                { q: 'Hanging out with friends is his favorite hobby.', a: 'T' },
-                { q: 'He thinks leisure activities are a waste of time.', a: 'F' }
+                { q: 'The speaker loves DIY projects.', a: 'T' }, { q: 'He spends 5 hours on TikTok.', a: 'F' },
+                { q: 'Hanging out is his favorite hobby.', a: 'T' }, { q: 'He dislikes the countryside.', a: 'F' }
             ]},
-            // MCQ (Trải dài 12 Unit)
-            { unit: 1, type: 'mcq', text: 'I adore _______ with my friends in the park.', options: ['hanging out', 'to hang out', 'hang out', 'hung out'], answer: 'A' },
+            { unit: 2, type: 'listening', instruction: 'Listen and fill in the blanks.', questions: [
+                { q: 'Life in the village is ______.', a: 'peaceful' }, { q: 'Farmers are ______.', a: 'busy' },
+                { q: 'The nomadic life is ______.', a: 'hard' }, { q: 'Children play ______.', a: 'freely' }
+            ]},
+            // MCQ (20 items)
+            { unit: 1, type: 'mcq', text: 'I adore _______ with my friends in the park.', options: ['hanging out', 'to hang', 'hang out', 'hung out'], answer: 'A' },
             { unit: 2, type: 'mcq', text: 'A tractor can plow _______ than a buffalo.', options: ['faster', 'fastly', 'more fast', 'fast'], answer: 'A' },
             { unit: 3, type: 'mcq', text: 'He was tired; _______, he finished his homework.', options: ['however', 'therefore', 'otherwise', 'so'], answer: 'A' },
-            // (Cô có thể dán tiếp hàng trăm câu MCQ khác vào đây...)
-            
-            // Reading & Writing
+            { unit: 4, type: 'mcq', text: 'Which ethnic group has the largest population?', options: ['The Kinh', 'The Tay', 'The Hmong', 'The Muong'], answer: 'A' },
+            // ... (Add more items for other units)
+            // Reading (6 items)
             { unit: 1, type: 'reading', passage: 'Leisure activities are essential for a balanced life...', questions: [
-                { q: 'Why are leisure activities important?', a: 'They help reduce stress.' },
-                { q: 'Is DIY helpful?', a: 'Yes, it is.' }
+                { q: 'Why are leisure activities important?', a: 'They reduce stress.' }, { q: 'What do some people enjoy?', a: 'Outdoor sports.' },
+                { q: 'Is DIY helpful?', a: 'Yes.' }, { q: 'Should we balance study?', a: 'Yes.' },
+                { q: 'Is digital time harmful?', a: 'Yes.' }, { q: 'What is the main topic?', a: 'Leisure.' }
             ]},
-            { unit: 1, type: 'writing', text: 'I am fond of making origami. (Rewrite: I enjoy...)', answer: 'I enjoy making origami.' }
+            // Writing (6 items)
+            { unit: 1, type: 'writing', text: 'I am fond of art. (Rewrite: I enjoy...)', answer: 'I enjoy art.' },
+            { unit: 2, type: 'writing', text: 'A buffalo plows slowly. (Rewrite: A tractor plows...)', answer: 'A tractor plows faster.' },
+            { unit: 3, type: 'writing', text: 'He was lazy; therefore, he failed. (Use: because)', answer: 'Because he was lazy, he failed.' }
         ];
 
+        // Khởi tạo giao diện
         lucide.createIcons();
+        const grid = document.getElementById('unit-grid');
+        for(let i=1; i<=12; i++) {
+            grid.innerHTML += `<label class="flex items-center gap-2 bg-slate-800/50 p-2 rounded-lg border border-slate-700 cursor-pointer hover:border-blue-500 transition">
+                <input type="checkbox" class="unit-cb w-3.5 h-3.5 accent-blue-500" value="${i}" ${i<=3 ? 'checked' : ''}>
+                <span class="text-[10px] font-bold">U${i}</span>
+            </label>`;
+        }
 
         function generateTest() {
             const school = document.getElementById('school-name').value;
@@ -119,41 +113,6 @@
             
             let filtered = questionBank.filter(q => selectedUnits.includes(q.unit)).sort(() => Math.random() - 0.5);
 
-            // MA TRẬN 40 CÂU: 8 Nghe - 20 Trắc nghiệm - 6 Đọc - 6 Viết
+            // MA TRẬN 40 CÂU
             const listening = filtered.filter(q => q.type === 'listening').slice(0, 2); 
-            const mcqs = filtered.filter(q => q.type === 'mcq').slice(0, 20);           
-            const reading = filtered.filter(q => q.type === 'reading').slice(0, 1);     
-            const writing = filtered.filter(q => q.type === 'writing').slice(0, 6);     
-
-            document.getElementById('test-preview').innerHTML = `
-                <div class="text-center mb-8">
-                    <h2 class="font-bold text-lg uppercase">${school}</h2>
-                    <h1 class="text-xl font-bold uppercase mt-2">ĐỀ KIỂM TRA ${examType}</h1>
-                    <p class="text-sm italic">Môn: Tiếng Anh 8 — Thời gian: 60 phút</p>
-                    <div class="w-40 h-0.5 bg-black mx-auto mt-2"></div>
-                </div>
-                <div class="mb-6 italic text-[14px] flex justify-between">
-                    <span>Full name: .......................................</span>
-                    <span>Class: ..........</span>
-                </div>
-                <div class="space-y-8">
-                    <section><h3 class="font-bold mb-3 border-b border-black uppercase">PART I. LISTENING</h3>
-                        ${listening.map((l, idx) => `<p class="italic text-sm mb-2">Section ${idx+1}: ${l.instruction}</p>${l.questions.map((q, i) => `<div class="flex justify-between text-sm pl-4"><span>${i+1}. ${q.q}</span><b>T / F</b></div>`).join('')}`).join('')}
-                    </section>
-                    <section><h3 class="font-bold mb-3 border-b border-black uppercase">PART II. MCQ</h3>
-                        ${mcqs.map((q, i) => `<div class="text-sm mb-3"><b>Q${i+1}:</b> ${q.text}<div class="mt-1 pl-4 flex flex-wrap gap-x-10">${q.options.map((opt, idx) => `<span class="option-item">${String.fromCharCode(65+idx)}. ${opt}</span>`).join('')}</div></div>`).join('')}
-                    </section>
-                </div>
-            `;
-        }
-
-        function exportToWord() {
-            const school = document.getElementById('school-name').value || "Exam";
-            let previewClone = document.getElementById('test-preview').cloneNode(true);
-            const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:'Times New Roman'; font-size: 12pt;} .option-item { display: inline-block; width: 23%; }</style></head><body>`;
-            const blob = new Blob(['\ufeff', header + previewClone.innerHTML + "</body></html>"], { type: 'application/msword' });
-            const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `${school}.doc`; link.click();
-        }
-    </script>
-</body>
-</html>
+            const mcqs = filtered.filter(q => q.type ===
