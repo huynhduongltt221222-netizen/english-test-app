@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Builder Pro v7.0 - THCS Lý Tự Trọng</title>
+    <title>Exam Builder Pro v8.0 - THCS Lý Tự Trọng</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Times+New+Roman&display=swap');
         
-        /* Giao diện Dashboard hiện đại */
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f1f5f9; }
 
         @media print {
@@ -19,35 +18,33 @@
             #test-preview { border: none; box-shadow: none; width: 100%; padding: 0; margin: 0; background: white; }
         }
         
-        /* Định dạng Đề thi chuẩn Bộ Giáo dục */
         #test-preview { font-family: 'Times New Roman', serif; color: #1e293b; line-height: 1.4; }
         .dotted-line { border-bottom: 1.5px dotted #94a3b8; height: 1.5em; width: 100%; display: block; }
         
         .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* CSS Đặc trị lỗi dính chữ trắc nghiệm */
-        .option-container { display: flex; flex-wrap: wrap; margin-top: 4px; padding-left: 16px; gap: 10px; }
-        .option-box { display: inline-block; min-width: 22%; padding-right: 10px; }
+        /* FIX LỖI DÍNH CHỮ MCQ CHO WORD */
+        .word-option { display: inline-block; width: 23%; min-width: 140px; padding-right: 10px; vertical-align: top; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row overflow-hidden">
 
     <aside class="w-full md:w-[420px] p-6 no-print h-screen flex flex-col gap-4 overflow-y-auto border-r border-slate-800 bg-[#0f172a] shadow-2xl">
         <div class="flex items-center gap-3 mb-2">
-            <div class="p-2.5 bg-blue-600 rounded-xl shadow-lg shadow-blue-500/20">
-                <i data-lucide="zap" class="text-white w-6 h-6"></i>
+            <div class="p-2.5 bg-blue-600 rounded-xl shadow-lg">
+                <i data-lucide="award" class="text-white w-6 h-6"></i>
             </div>
             <div>
                 <h1 class="text-lg font-bold text-white uppercase tracking-tight">ExamBuilder <span class="text-blue-500">PRO</span></h1>
-                <p class="text-[9px] text-slate-500 uppercase font-bold tracking-[0.2em]">THCS Lý Tự Trọng Edition</p>
+                <p class="text-[9px] text-slate-500 uppercase font-bold tracking-widest">THCS LÝ TỰ TRỌNG</p>
             </div>
         </div>
 
         <div class="glass p-5 rounded-3xl space-y-4">
             <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">
-                <i data-lucide="info" class="w-3 h-3"></i> Thông tin đề thi
+                <i data-lucide="clipboard-list" class="w-3 h-3"></i> Thông tin đề thi
             </label>
-            <input type="text" id="school-name" value="THCS LÝ TỰ TRỌNG" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-sm text-white focus:border-blue-500 outline-none transition-all">
+            <input type="text" id="school-name" value="THCS LÝ TỰ TRỌNG" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-sm text-white focus:border-blue-500 outline-none">
             
             <select id="exam-type" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-sm text-white focus:border-blue-500 outline-none cursor-pointer">
                 <option value="GIỮA KỲ I">Kiểm tra Giữa kỳ I</option>
@@ -59,7 +56,7 @@
 
         <div class="glass p-5 rounded-3xl space-y-4">
             <label class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
-                <i data-lucide="book-open" class="w-3 h-3"></i> Phạm vi 12 Units
+                <i data-lucide="library" class="w-3 h-3"></i> Phạm vi 12 Units
             </label>
             <div class="grid grid-cols-3 gap-2">
                 <script>
@@ -67,7 +64,7 @@
                         document.write(`
                             <label class="flex items-center gap-2 bg-slate-900/50 p-2 rounded-xl border border-slate-800 cursor-pointer hover:border-blue-500 transition shadow-sm">
                                 <input type="checkbox" class="unit-cb w-4 h-4 accent-blue-500" value="${i}" ${i<=3 ? 'checked' : ''}>
-                                <span class="text-[11px] font-bold">U${i}</span>
+                                <span class="text-[11px] font-bold">Unit ${i}</span>
                             </label>
                         `);
                     }
@@ -77,12 +74,12 @@
 
         <div class="mt-auto space-y-3 pb-2">
             <button onclick="generateTest()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 text-xs uppercase tracking-widest hover:bg-blue-500 transition shadow-xl active:scale-95">
-                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Tạo đề 40 câu chuẩn
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Tạo đề 40 câu ma trận
             </button>
             
             <div class="relative w-full" id="dropdownContainer">
                 <button id="dropdownBtn" class="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl flex justify-center items-center gap-2 text-xs uppercase tracking-widest hover:bg-slate-100 transition shadow-md">
-                    <i data-lucide="download" class="w-4 h-4"></i> Xuất bản đề thi
+                    <i data-lucide="file-down" class="w-4 h-4"></i> Xuất bản đề thi
                 </button>
                 <div id="dropdownMenu" class="hidden absolute left-0 bottom-full mb-3 w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 z-50">
                     <button onclick="window.print()" class="flex items-center gap-3 w-full text-left px-6 py-4 hover:bg-blue-50 border-b border-slate-100 text-[13px] font-bold text-slate-700">
@@ -99,8 +96,8 @@
     <main class="flex-1 p-6 md:p-10 overflow-y-auto flex justify-center bg-slate-950">
         <div id="test-preview" class="bg-white p-12 md:p-20 shadow-2xl w-full max-w-[210mm] min-h-[297mm] rounded-sm relative">
             <div class="flex flex-col items-center justify-center h-full text-slate-200 py-60 border-2 border-dashed border-slate-100 rounded-3xl bg-white">
-                <i data-lucide="file-check" class="w-16 h-16 mb-4 text-slate-200"></i>
-                <p class="text-lg font-medium text-slate-300 italic">Hệ thống sẵn sàng. Vui lòng nhấn "Tạo đề ngay".</p>
+                <i data-lucide="scroll-text" class="w-16 h-16 mb-4 text-slate-200"></i>
+                <p class="text-lg font-medium text-slate-300 italic">Vui lòng chọn thông số và nhấn "Tạo đề".</p>
             </div>
         </div>
     </main>
@@ -150,13 +147,13 @@
                     <section>
                         <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase tracking-tight text-[15px]">PART I. LISTENING (2.0 pts)</h3>
                         ${listening.map((l, idx) => `
-                            <div class="mb-5">
+                            <div class="mb-4">
                                 <p class="text-[14px] italic mb-2">Section ${idx+1}: ${l.instruction}</p>
                                 <div class="space-y-3">
                                     ${l.questions.map((q, i) => `
                                         <div class="flex justify-between text-[14px] pl-4">
                                             <span><strong>${i+1}.</strong> ${q.q}</span>
-                                            <span class="font-bold">T / F</span>
+                                            <span class="font-bold underline">T / F</span>
                                         </div>
                                     `).join('')}
                                 </div>
@@ -170,9 +167,9 @@
                             ${mcqs.map((q, i) => `
                                 <div class="text-[14px]">
                                     <p><strong>Question ${i+1}:</strong> ${q.text}</p>
-                                    <div class="option-container">
+                                    <div style="margin-top: 4px; padding-left: 16px;">
                                         ${q.options.map((opt, idx) => `
-                                            <span class="option-box">
+                                            <span class="word-option">
                                                 ${String.fromCharCode(65+idx)}. ${opt}
                                             </span>`).join('')}
                                     </div>
@@ -210,7 +207,7 @@
                 </div>
 
                 <div class="page-break pt-10 border-t-2 border-dashed mt-20 no-print">
-                    <h2 class="text-center font-bold text-xl mb-6 underline uppercase text-blue-800 italic">Đáp án & Ma trận</h2>
+                    <h2 class="text-center font-bold text-xl mb-6 underline uppercase text-blue-800 italic">Đáp án Gợi ý</h2>
                     <div class="grid grid-cols-2 gap-10 text-[13px]">
                         <table class="border-collapse border border-gray-400 w-full text-center">
                             <tr class="bg-gray-100 font-bold"><th class="border border-gray-400 p-1">Q</th><th class="border border-gray-400 p-1">Key</th></tr>
@@ -239,12 +236,13 @@
             const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
                 <head><meta charset='utf-8'><style>
                     body{font-family:'Times New Roman'; font-size: 12pt;} 
-                    .option-box { display: inline-block; width: 23%; padding-right: 15px; }
+                    .word-option { display: inline-block; width: 23%; padding-right: 10px; }
                 </style></head><body>`;
             
             const blob = new Blob(['\ufeff', header + content + "</body></html>"], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob); link.download = fileName; link.click();
+            link.href = url; link.download = fileName; link.click();
         }
     </script>
 </body>
