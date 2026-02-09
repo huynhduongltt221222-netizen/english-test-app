@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Test Generator Pro - Grade 8</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Font chuẩn cho giáo dục */
+        @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        @media print {
+            .no-print { display: none !important; }
+            .page-break { break-before: page; }
+            body { background: white; }
+            #test-preview { border: none; box-shadow: none; width: 100%; padding: 0; margin: 0; }
+        }
+        
+        /* Định dạng nội dung đề thi */
+        #test-preview { font-family: 'Times New Roman', serif; line-height: 1.5; }
+        .dotted-line { border-bottom: 1px dotted #000; height: 1.5em; width: 100%; display: block; }
+        
+        /* Tùy chỉnh thanh cuộn cho Sidebar */
+        aside::-webkit-scrollbar { width: 5px; }
+        aside::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+
+    <aside class="w-full md:w-85 bg-white p-6 shadow-xl overflow-y-auto no-print border-r flex-shrink-0 h-screen sticky top-0">
+        <h1 class="text-2xl font-bold text-blue-700 mb-6 flex items-center gap-2">
+            <span>⚡</span> Exam Builder Pro
+        </h1>
+        
+        <div class="space-y-6">
+            <div>
+                <h2 class="font-bold text-gray-700 mb-3 border-b-2 border-blue-100 uppercase text-[11px] tracking-wider">1. Thông tin trường & lớp</h2>
+                <div class="space-y-2">
+                    <input type="text" id="school-name" placeholder="Tên trường (VD: THCS Global Success)" class="w-full p-2 border rounded text-sm outline-none focus:ring-2 focus:ring-blue-400">
+                    <input type="text" id="school-year" placeholder="Năm học (VD: 2025 - 2026)" class="w-full p-2 border rounded text-sm outline-none focus:ring-2 focus:ring-blue-400">
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-gray-500 whitespace-nowrap font-medium">Thời gian:</label>
+                        <input type="number" id="test-duration" value="60" min="60" class="w-full p-2 border rounded text-sm outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="font-bold text-gray-700 mb-3 border-b-2 border-blue-100 uppercase text-[11px] tracking-wider">2. Tiêu đề các phần</h2>
+                <div class="space-y-2">
+                    <input type="text" id="p1-title" placeholder="Phần I: MULTIPLE CHOICE (6.0 pts)" class="w-full p-2 border rounded text-sm outline-none">
+                    <input type="text" id="p2-title" placeholder="Phần II: READING (2.0 pts)" class="w-full p-2 border rounded text-sm outline-none">
+                    <input type="text" id="p3-title" placeholder="Phần III: WRITING (2.0 pts)" class="w-full p-2 border rounded text-sm outline-none">
+                </div>
+            </div>
+
+            <div class="pt-4 flex flex-col gap-3">
+                <button onclick="generateTest()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition shadow-lg active:scale-95 flex items-center justify-center gap-2">
+                    Tạo đề ngẫu nhiên 🎲
+                </button>
+                
+                <div class="relative inline-block text-left" id="dropdownContainer">
+                    <button id="dropdownBtn" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg hover:bg-black transition flex justify-center items-center gap-2 shadow-md">
+                        Xuất bản đề thi 📥
+                    </button>
+                    <div id="dropdownMenu" class="hidden absolute left-0 bottom-full mb-2 w-full bg-white border rounded-lg shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-bottom-2">
+                        <button onclick="window.print()" class="block w-full text-left px-4 py-3 hover:bg-blue-50 border-b text-sm font-medium transition">
+                            🖨️ In đề / Xuất PDF
+                        </button>
+                        <button onclick="exportToWord()" class="block w-full text-left px-4 py-3 hover:bg-blue-50 text-sm font-medium transition">
+                            📄 Tải file Word (.doc)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-[10px] text-gray-400 text-center italic">Thiết kế bởi Gemini & Bạn ✨</p>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-4 md:p-10 overflow-y-auto flex justify-center bg-gray-200">
+        <div id="test-preview" class="bg-white p-8 md:p-16 shadow-2xl w-full max-w-[210mm] min-h-[297mm] relative">
+            <div class="flex flex-col items-center justify-center h-full text-gray-300 space-y-4 py-40">
+                <span class="text-6xl">📝</span>
+                <p class="text-lg font-medium">Vui lòng thiết lập và nhấn "Tạo đề mới"</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // NGÂN HÀNG CÂU HỎI (Hợp nhất dữ liệu Unit 1, 2, 3)
+        const questionBank = [
+            // MCQ - TRẮC NGHIỆM
+            { unit: 1, type: 'mcq', text: 'I adore _______ with my friends in the park.', options: ['hanging out', 'to hang out', 'hang out', 'hung out'], answer: 'A' },
+            { unit: 1, type: 'mcq', text: 'Which word has a different sound?', options: ['cook', 'food', 'book', 'foot'], answer: 'B' },
+            { unit: 1, type: 'mcq', text: 'My cousin is crazy _______ playing computer games.', options: ['about', 'on', 'with', 'at'], answer: 'A' },
+            { unit: 2, type: 'mcq', text: 'A tractor can plow _______ than a buffalo.', options: ['faster', 'more fast', 'fast', 'fastly'], answer: 'A' },
+            { unit: 2, type: 'mcq', text: 'Life in the countryside is _______ than in the city.', options: ['more peaceful', 'peacefuler', 'peacefully', 'peaceful'], answer: 'A' },
+            { unit: 3, type: 'mcq', text: 'I was tired; _______, I finished my homework.', options: ['however', 'therefore', 'otherwise', 'so'], answer: 'A' },
+            { unit: 3, type: 'mcq', text: 'You should study hard, _______ you will fail the exam.', options: ['otherwise', 'therefore', 'however', 'and'], answer: 'A' },
+            // ... (Bạn có thể thêm 50-100 câu tương tự tại đây)
+            
+            // READING - ĐỌC HIỂU
+            { unit: 1, type: 'reading', 
+              passage: 'Leisure activities are essential for a balanced life. While some people enjoy outdoor sports like football or cycling, others find relaxation in quiet hobbies such as reading or gardening. For teenagers, these activities help reduce stress from school work and build social skills when done with friends. However, it is important to balance leisure time with study responsibilities.', 
+              questions: [
+                  { q: 'Why are leisure activities important?', a: 'Because they are essential for a balanced life.' },
+                  { q: 'What can help teenagers reduce stress?', a: 'Leisure activities like sports or hobbies.' },
+                  { q: 'Is it important to balance leisure time with study?', a: 'Yes, it is.' }
+              ] 
+            },
+
+            // WRITING - TỰ LUẬN
+            { unit: 1, type: 'writing', text: 'I am fond of making origami. (Rewrite: I enjoy...)', answer: 'I enjoy making origami.' },
+            { unit: 2, type: 'writing', text: 'People in the city live more quickly than people in the country. (Rewrite: People in the country live...)', answer: 'People in the country live more slowly than people in the city.' },
+            { unit: 3, type: 'writing', text: 'He didn\'t study hard, so he failed the test. (Rewrite using "therefore")', answer: 'He didn\'t study hard; therefore, he failed the test.' }
+        ];
+
+        // --- 1. LOGIC DROPDOWN ---
+        const btn = document.getElementById('dropdownBtn');
+        const menu = document.getElementById('dropdownMenu');
+        const container = document.getElementById('dropdownContainer');
+        
+        btn.onclick = (e) => { e.stopPropagation(); menu.classList.toggle('hidden'); };
+        window.onclick = (e) => { if (!container.contains(e.target)) menu.classList.add('hidden'); };
+
+        // --- 2. LOGIC BỐ CỤC THÔNG MINH (Smart Grid) ---
+        function getGridClass(options) {
+            const maxLen = Math.max(...options.map(opt => opt.length));
+            if (maxLen <= 12) return 'grid-cols-4'; // Rất ngắn -> 4 cột
+            if (maxLen <= 25) return 'grid-cols-2'; // Vừa -> 2 cột
+            return 'grid-cols-1'; // Dài -> 1 cột
+        }
+
+        // --- 3. HÀM TẠO ĐỀ (MATRIX 30-1-5) ---
+        function generateTest() {
+            const school = document.getElementById('school-name').value || "TRƯỜNG THCS .....................";
+            const year = document.getElementById('school-year').value || "2025 - 2026";
+            const duration = document.getElementById('test-duration').value || "60";
+            const p1 = document.getElementById('p1-title').value || "PART I. MULTIPLE CHOICE (6.0 pts)";
+            const p2 = document.getElementById('p2-title').value || "PART II. READING (2.0 pts)";
+            const p3 = document.getElementById('p3-title').value || "PART III. WRITING (2.0 pts)";
+
+            let pool = [...questionBank].sort(() => Math.random() - 0.5);
+            const mcqs = pool.filter(q => q.type === 'mcq').slice(0, 30);
+            const reading = pool.filter(q => q.type === 'reading').slice(0, 1);
+            const writing = pool.filter(q => q.type === 'writing').slice(0, 5);
+
+            let html = `
+                <div class="text-center mb-8">
+                    <h2 class="font-bold text-lg uppercase">${school}</h2>
+                    <p class="font-bold text-sm">Năm học: ${year}</p>
+                    <div class="w-32 h-0.5 bg-black mx-auto my-2"></div>
+                    <h1 class="text-2xl font-bold uppercase mt-4">ĐỀ KIỂM TRA GIỮA KỲ I</h1>
+                    <p class="text-sm">Môn: Tiếng Anh 8 — Thời gian: ${duration} phút</p>
+                </div>
+                
+                <div class="mb-8 italic text-sm border-b border-gray-200 pb-2">
+                    Full name: ............................................................ Class: ...........
+                </div>
+
+                <div class="space-y-10">
+                    <section>
+                        <h3 class="font-bold mb-4 border-b border-black pb-1">${p1}</h3>
+                        <div class="space-y-4">
+                            ${mcqs.map((q, i) => `
+                                <div class="text-[14px]">
+                                    <p><strong>Question ${i+1}:</strong> ${q.text}</p>
+                                    <div class="grid ${getGridClass(q.options)} mt-1 pl-4 gap-y-1">
+                                        ${q.options.map((opt, idx) => `<span>${String.fromCharCode(65+idx)}. ${opt}</span>`).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3 class="font-bold mb-4 border-b border-black pb-1">${p2}</h3>
+                        ${reading.map(r => `
+                            <p class="italic mb-6 text-justify text-[14px] leading-relaxed">${r.passage}</p>
+                            <div class="space-y-6">
+                                ${r.questions.map((q, i) => `
+                                    <div class="pl-2">
+                                        <p class="text-[14px]"><strong>${i+1}.</strong> ${q.q}</p>
+                                        <div class="dotted-line mt-3"></div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `).join('')}
+                    </section>
+
+                    <section>
+                        <h3 class="font-bold mb-4 border-b border-black pb-1">${p3}</h3>
+                        <div class="space-y-8">
+                            ${writing.map((q, i) => `
+                                <div class="pl-2">
+                                    <p class="text-[14px]"><strong>${i+1}.</strong> ${q.text}</p>
+                                    <div class="dotted-line mt-4"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </section>
+                </div>
+
+                <div class="page-break pt-10 border-t-2 border-dashed mt-20 no-print">
+                    <h2 class="text-center font-bold text-xl mb-8 underline uppercase text-blue-800">Answer Key</h2>
+                    <div class="grid grid-cols-2 gap-10 text-[13px]">
+                        <div>
+                            <table class="border-collapse border border-gray-400 w-full text-center">
+                                <tr class="bg-gray-100 font-bold">
+                                    <th class="border border-gray-400 p-1">Q</th>
+                                    <th class="border border-gray-400 p-1">Key</th>
+                                </tr>
+                                ${mcqs.map((q, i) => `<tr><td class="border border-gray-400">${i+1}</td><td class="border border-gray-400 font-bold">${q.answer}</td></tr>`).join('')}
+                            </table>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <h4 class="font-bold mb-3 border-b border-blue-200">Short Answer Keys:</h4>
+                            <div class="space-y-4">
+                                ${reading.map(r => r.questions.map((q, i) => `<p><strong>R${i+1}:</strong> ${q.a}</p>`).join('')).join('')}
+                                <hr class="border-blue-100">
+                                ${writing.map((q, i) => `<p><strong>W${i+1}:</strong> ${q.answer}</p>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('test-preview').innerHTML = html;
+        }
+
+        // --- 4. HÀM XUẤT WORD CHUẨN 📄 ---
+        function exportToWord() {
+            const school = document.getElementById('school-name').value || "De_Thi";
+            const year = document.getElementById('school-year').value || "2025";
+            const fileName = `${school}_${year}`.replace(/\s+/g, '_') + '.doc';
+
+            // Clone nội dung và thay thế dòng kẻ chấm (Dot line fix)
+            let previewClone = document.getElementById('test-preview').cloneNode(true);
+            previewClone.querySelectorAll('.dotted-line').forEach(line => {
+                line.innerHTML = "........................................................................................................................................";
+            });
+
+            const content = previewClone.innerHTML;
+            const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head><meta charset='utf-8'><style>
+                    body { font-family: 'Times New Roman'; }
+                    table { border-collapse: collapse; width: 100%; }
+                    th, td { border: 1px solid black; padding: 5px; }
+                    .text-center { text-align: center; }
+                    .font-bold { font-weight: bold; }
+                    .grid { display: block; }
+                    .grid span { display: inline-block; width: 23%; }
+                </style></head><body>`;
+            
+            const blob = new Blob(['\ufeff', header + content + "</body></html>"], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url; link.download = fileName; link.click();
+        }
+    </script>
+</body>
+</html>
