@@ -1,118 +1,582 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Builder Pro v10.0 | THCS Lý Tự Trọng</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Times+New+Roman&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1120; color: #f1f5f9; }
-        @media print {
-            .no-print { display: none !important; }
-            .page-break { break-before: page; }
-            body { background: white; color: black; }
-            #test-preview { border: none; box-shadow: none; width: 100%; padding: 0; margin: 0; background: white; }
-        }
-        #test-preview { font-family: 'Times New Roman', serif; color: #1e293b; line-height: 1.5; font-size: 13pt; }
-        .dotted-line { border-bottom: 1.5px dotted #94a3b8; height: 1.6em; width: 100%; display: block; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        /* SỬA LỖI DÍNH CHỮ */
-        .option-item { display: inline-block; width: 24%; min-width: 150px; padding-right: 10px; vertical-align: top; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Builder Pro v9.0 | THCS Lý Tự Trọng</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
+    :root{
+      --bg:#020617;
+      --panel: rgba(15,23,42,.72);
+      --border: rgba(148,163,184,.16);
+      --ring: rgba(59,130,246,.55);
+    }
+    body{
+      font-family:'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1000px 700px at 12% 12%, rgba(59,130,246,.18), transparent 55%),
+        radial-gradient(900px 650px at 88% 18%, rgba(16,185,129,.12), transparent 55%),
+        radial-gradient(900px 650px at 50% 95%, rgba(236,72,153,.10), transparent 55%),
+        var(--bg);
+      color:#f1f5f9;
+      overflow:hidden;
+    }
+    .glass{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 18px 55px rgba(0,0,0,.38);
+    }
+    .nice-scroll::-webkit-scrollbar{ width:10px; }
+    .nice-scroll::-webkit-scrollbar-track{ background:transparent; }
+    .nice-scroll::-webkit-scrollbar-thumb{
+      background: rgba(148,163,184,.20);
+      border-radius: 999px;
+      border:2px solid transparent;
+      background-clip: padding-box;
+    }
+    .nice-scroll::-webkit-scrollbar-thumb:hover{ background: rgba(148,163,184,.32); }
+
+    /* Preview typography */
+    #test-preview{
+      font-family:"Times New Roman", Times, serif;
+      color:#0f172a;
+      line-height:1.55;
+      font-size:14px;
+    }
+    .dotted-line{ border-bottom:1.5px dotted #94a3b8; height:1.55em; width:100%; display:block; }
+
+    /* Word-safe options */
+    .word-option{ display:inline-block; width:23%; min-width:140px; padding-right:10px; vertical-align:top; }
+
+    /* Print rules */
+    @media print{
+      .no-print{ display:none !important; }
+      body{ background:#fff !important; color:#000 !important; overflow:visible !important; }
+      main{ padding:0 !important; background:#fff !important; }
+      #test-preview{ border:none !important; box-shadow:none !important; width:100% !important; padding:0 !important; margin:0 !important; background:#fff !important; }
+      .print-hide{ display:none !important; }
+    }
+  </style>
 </head>
+
 <body class="min-h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <aside class="w-full md:w-[420px] p-6 no-print h-screen flex flex-col gap-4 overflow-y-auto border-r border-slate-800 bg-[#0f172a] shadow-2xl">
-        <div class="flex items-center gap-3 mb-2">
-            <div class="p-2.5 bg-blue-600 rounded-xl shadow-lg"><i data-lucide="shield-check" class="text-white w-5 h-5"></i></div>
-            <h1 class="text-lg font-bold text-white uppercase tracking-tight">ExamBuilder <span class="text-blue-500 italic">PRO</span></h1>
+  <!-- SIDEBAR -->
+  <aside class="no-print w-full md:w-[460px] h-[46vh] md:h-screen border-b md:border-b-0 md:border-r border-slate-800/70 bg-[#0b1224]">
+    <div class="h-full p-6 glass nice-scroll overflow-y-auto flex flex-col gap-4">
+
+      <!-- Brand -->
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-2xl shadow-blue-500/20 ring-1 ring-white/10">
+            <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
+          </div>
+          <div class="leading-tight">
+            <div class="text-sm font-extrabold uppercase tracking-tight text-white">
+              ExamBuilder <span class="text-blue-300 italic">PRO</span>
+            </div>
+            <div class="text-[11px] text-slate-300/75">v9.0 • THCS Lý Tự Trọng • Chuẩn in/Word</div>
+          </div>
         </div>
 
-        <div class="glass p-4 rounded-2xl space-y-3">
-            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">Hành chính</label>
-            <input type="text" id="school-name" value="THCS LÝ TỰ TRỌNG" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white outline-none">
-            <select id="exam-type" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white cursor-pointer">
+        <button onclick="resetAll()" class="text-[11px] px-3 py-2 rounded-2xl bg-white/10 border border-slate-700/40 hover:bg-white/15 transition">
+          <span class="inline-flex items-center gap-2">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset
+          </span>
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="grid grid-cols-3 gap-2">
+        <button class="tab-btn rounded-2xl py-2.5 text-xs font-extrabold uppercase tracking-widest bg-white/10 border border-slate-700/40 hover:bg-white/15 transition"
+                data-tab="tab-config">
+          Cấu hình
+        </button>
+        <button class="tab-btn rounded-2xl py-2.5 text-xs font-extrabold uppercase tracking-widest bg-white/5 border border-slate-700/40 hover:bg-white/15 transition"
+                data-tab="tab-content">
+          Nội dung
+        </button>
+        <button class="tab-btn rounded-2xl py-2.5 text-xs font-extrabold uppercase tracking-widest bg-white/5 border border-slate-700/40 hover:bg-white/15 transition"
+                data-tab="tab-export">
+          Xuất bản
+        </button>
+      </div>
+
+      <!-- TAB: CONFIG -->
+      <section id="tab-config" class="space-y-4">
+        <div class="rounded-3xl p-5 bg-white/5 border border-slate-700/30 space-y-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="building-2" class="w-4 h-4 text-blue-300"></i>
+            <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-300">Thông tin hành chính</h2>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] text-slate-300/85">UBND</label>
+              <input id="local-name" value="UBND ..." class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)]" />
+            </div>
+            <div>
+              <label class="text-[11px] text-slate-300/85">Phòng GD&ĐT</label>
+              <input id="dept-name" value="PHÒNG GD&ĐT ..." class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)]" />
+            </div>
+          </div>
+
+          <div>
+            <label class="text-[11px] text-slate-300/85">Tên trường</label>
+            <input id="school-name" value="TRƯỜNG THCS Lý Tự Trọng" class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)]" />
+          </div>
+        </div>
+
+        <div class="rounded-3xl p-5 bg-white/5 border border-slate-700/30 space-y-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-emerald-300"></i>
+            <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-300">Thiết lập đề</h2>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] text-slate-300/85">Khối</label>
+              <select id="grade" class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)] cursor-pointer">
+                <option value="6">6</option><option value="7">7</option><option value="8" selected>8</option><option value="9">9</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] text-slate-300/85">Thời gian</label>
+              <input id="duration" value="60 phút" class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)]" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] text-slate-300/85">Loại kiểm tra</label>
+              <select id="exam-type" class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)] cursor-pointer">
                 <option value="GIỮA KỲ I">Kiểm tra Giữa kỳ I</option>
                 <option value="CUỐI KỲ I">Kiểm tra Cuối kỳ I</option>
                 <option value="GIỮA KỲ II">Kiểm tra Giữa kỳ II</option>
                 <option value="CUỐI KỲ II">Kiểm tra Cuối kỳ II</option>
-            </select>
-        </div>
-
-        <div class="glass p-4 rounded-2xl space-y-3">
-            <label class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">Phạm vi 12 Units</label>
-            <div class="grid grid-cols-3 gap-2" id="unit-grid">
-                </div>
-        </div>
-
-        <div class="mt-auto space-y-3">
-            <button onclick="generateTest()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 text-xs uppercase hover:bg-blue-500 transition shadow-xl active:scale-95">
-                <i data-lucide="zap" class="w-4 h-4"></i> Tạo đề 40 câu chuẩn
-            </button>
-            <button onclick="exportToWord()" class="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl flex justify-center items-center gap-2 text-xs uppercase hover:bg-slate-50 transition shadow-md">
-                <i data-lucide="file-text" class="w-4 h-4"></i> Tải file Word (.doc)
-            </button>
-        </div>
-    </aside>
-
-    <main class="flex-1 p-6 md:p-10 overflow-y-auto flex justify-center bg-slate-950">
-        <div id="test-preview" class="bg-white p-12 md:p-20 shadow-2xl w-full max-w-[210mm] min-h-[297mm] rounded-sm relative">
-            <div class="flex flex-col items-center justify-center h-full text-slate-300 py-60 border-2 border-dashed border-slate-200 rounded-3xl">
-                <i data-lucide="file-check" class="w-16 h-16 mb-4"></i>
-                <p class="text-sm font-medium italic">Hệ thống đã sẵn sàng 100%.</p>
+              </select>
             </div>
+            <div>
+              <label class="text-[11px] text-slate-300/85">Mã đề</label>
+              <input id="exam-code" value="01" class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)]" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] text-slate-300/85">Môn</label>
+              <input id="subject" value="Tiếng Anh" class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)]" />
+            </div>
+            <div>
+              <label class="text-[11px] text-slate-300/85">Năm học</label>
+              <input id="school-year" value="2025–2026" class="w-full bg-slate-900/60 border border-slate-700/40 px-3 py-2.5 rounded-2xl text-sm text-white outline-none focus:ring-2 focus:ring-[var(--ring)]" />
+            </div>
+          </div>
         </div>
-    </main>
+      </section>
 
-    <script>
-        // NGÂN HÀNG CÂU HỎI HỢP NHẤT (Embedded Data)
-        const questionBank = [
-            // Listening (8 items/2 sections)
-            { unit: 1, type: 'listening', instruction: 'Listen and circle T (True) or F (False).', questions: [
-                { q: 'The speaker loves DIY projects.', a: 'T' }, { q: 'He spends 5 hours on TikTok.', a: 'F' },
-                { q: 'Hanging out is his favorite hobby.', a: 'T' }, { q: 'He dislikes the countryside.', a: 'F' }
-            ]},
-            { unit: 2, type: 'listening', instruction: 'Listen and fill in the blanks.', questions: [
-                { q: 'Life in the village is ______.', a: 'peaceful' }, { q: 'Farmers are ______.', a: 'busy' },
-                { q: 'The nomadic life is ______.', a: 'hard' }, { q: 'Children play ______.', a: 'freely' }
-            ]},
-            // MCQ (20 items)
-            { unit: 1, type: 'mcq', text: 'I adore _______ with my friends in the park.', options: ['hanging out', 'to hang', 'hang out', 'hung out'], answer: 'A' },
-            { unit: 2, type: 'mcq', text: 'A tractor can plow _______ than a buffalo.', options: ['faster', 'fastly', 'more fast', 'fast'], answer: 'A' },
-            { unit: 3, type: 'mcq', text: 'He was tired; _______, he finished his homework.', options: ['however', 'therefore', 'otherwise', 'so'], answer: 'A' },
-            { unit: 4, type: 'mcq', text: 'Which ethnic group has the largest population?', options: ['The Kinh', 'The Tay', 'The Hmong', 'The Muong'], answer: 'A' },
-            // ... (Add more items for other units)
-            // Reading (6 items)
-            { unit: 1, type: 'reading', passage: 'Leisure activities are essential for a balanced life...', questions: [
-                { q: 'Why are leisure activities important?', a: 'They reduce stress.' }, { q: 'What do some people enjoy?', a: 'Outdoor sports.' },
-                { q: 'Is DIY helpful?', a: 'Yes.' }, { q: 'Should we balance study?', a: 'Yes.' },
-                { q: 'Is digital time harmful?', a: 'Yes.' }, { q: 'What is the main topic?', a: 'Leisure.' }
-            ]},
-            // Writing (6 items)
-            { unit: 1, type: 'writing', text: 'I am fond of art. (Rewrite: I enjoy...)', answer: 'I enjoy art.' },
-            { unit: 2, type: 'writing', text: 'A buffalo plows slowly. (Rewrite: A tractor plows...)', answer: 'A tractor plows faster.' },
-            { unit: 3, type: 'writing', text: 'He was lazy; therefore, he failed. (Use: because)', answer: 'Because he was lazy, he failed.' }
-        ];
+      <!-- TAB: CONTENT -->
+      <section id="tab-content" class="space-y-4 hidden">
+        <div class="rounded-3xl p-5 bg-white/5 border border-slate-700/30 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="layers" class="w-4 h-4 text-emerald-300"></i>
+              <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-300">Chọn Unit</h2>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="toggleAllUnits(true)" class="text-[10px] px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-100 border border-emerald-400/20 hover:bg-emerald-500/15 transition">Chọn hết</button>
+              <button onclick="toggleAllUnits(false)" class="text-[10px] px-3 py-1.5 rounded-full bg-white/10 text-slate-100 border border-slate-400/20 hover:bg-white/15 transition">Bỏ chọn</button>
+            </div>
+          </div>
 
-        // Khởi tạo giao diện
-        lucide.createIcons();
-        const grid = document.getElementById('unit-grid');
-        for(let i=1; i<=12; i++) {
-            grid.innerHTML += `<label class="flex items-center gap-2 bg-slate-800/50 p-2 rounded-lg border border-slate-700 cursor-pointer hover:border-blue-500 transition">
-                <input type="checkbox" class="unit-cb w-3.5 h-3.5 accent-blue-500" value="${i}" ${i<=3 ? 'checked' : ''}>
-                <span class="text-[10px] font-bold">U${i}</span>
-            </label>`;
-        }
+          <div id="units-grid" class="grid grid-cols-3 gap-2"></div>
 
-        function generateTest() {
-            const school = document.getElementById('school-name').value;
-            const examType = document.getElementById('exam-type').value;
-            const selectedUnits = Array.from(document.querySelectorAll('.unit-cb:checked')).map(cb => parseInt(cb.value));
-            
-            let filtered = questionBank.filter(q => selectedUnits.includes(q.unit)).sort(() => Math.random() - 0.5);
+          <div class="text-[11px] text-slate-300/70">
+            Gợi ý: chọn 3–6 Unit để đề cân đối. Hệ thống sẽ trộn ngẫu nhiên từ ngân hàng câu hỏi.
+          </div>
+        </div>
 
-            // MA TRẬN 40 CÂU
-            const listening = filtered.filter(q => q.type === 'listening').slice(0, 2); 
-            const mcqs = filtered.filter(q => q.type ===
+        <div class="rounded-3xl p-5 bg-white/5 border border-slate-700/30 space-y-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="sliders-horizontal" class="w-4 h-4 text-blue-300"></i>
+            <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-300">Ma trận</h2>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div class="rounded-2xl bg-slate-900/50 border border-slate-700/40 p-3">
+              <div class="text-[11px] text-slate-300/80">Listening</div>
+              <div class="text-sm font-extrabold" id="stat-listen">2 section</div>
+            </div>
+            <div class="rounded-2xl bg-slate-900/50 border border-slate-700/40 p-3">
+              <div class="text-[11px] text-slate-300/80">MCQ</div>
+              <div class="text-sm font-extrabold" id="stat-mcq">20 câu</div>
+            </div>
+            <div class="rounded-2xl bg-slate-900/50 border border-slate-700/40 p-3">
+              <div class="text-[11px] text-slate-300/80">Reading</div>
+              <div class="text-sm font-extrabold" id="stat-read">1 passage</div>
+            </div>
+            <div class="rounded-2xl bg-slate-900/50 border border-slate-700/40 p-3">
+              <div class="text-[11px] text-slate-300/80">Writing</div>
+              <div class="text-sm font-extrabold" id="stat-write">6 câu</div>
+            </div>
+          </div>
+
+          <div class="text-[11px] text-slate-300/70" id="bank-health">
+            Trạng thái ngân hàng: chưa kiểm tra.
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: EXPORT -->
+      <section id="tab-export" class="space-y-4 hidden">
+        <div class="rounded-3xl p-5 bg-white/5 border border-slate-700/30 space-y-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-blue-300"></i>
+            <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-300">Tạo & Xuất bản</h2>
+          </div>
+
+          <button onclick="generateTest()" class="w-full rounded-2xl py-4 text-xs font-extrabold uppercase tracking-widest bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 transition shadow-2xl shadow-blue-500/20 active:scale-[0.99]">
+            <span class="inline-flex items-center justify-center gap-2">
+              <i data-lucide="wand-2" class="w-4 h-4"></i> Tạo đề theo ma trận
+            </span>
+          </button>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="toggleAnswerPanel()" class="w-full rounded-2xl py-3.5 text-xs font-extrabold uppercase tracking-widest bg-white/10 border border-slate-700/40 hover:bg-white/15 transition active:scale-[0.99]">
+              <span class="inline-flex items-center justify-center gap-2">
+                <i data-lucide="key" class="w-4 h-4"></i> Hiện đáp án
+              </span>
+            </button>
+            <button onclick="window.print()" class="w-full rounded-2xl py-3.5 text-xs font-extrabold uppercase tracking-widest bg-white text-slate-900 hover:bg-slate-100 transition shadow-md active:scale-[0.99]">
+              <span class="inline-flex items-center justify-center gap-2">
+                <i data-lucide="printer" class="w-4 h-4"></i> In / PDF
+              </span>
+            </button>
+          </div>
+
+          <button onclick="exportToWord()" class="w-full rounded-2xl py-3.5 text-xs font-extrabold uppercase tracking-widest bg-white text-slate-900 hover:bg-slate-100 transition shadow-md active:scale-[0.99]">
+            <span class="inline-flex items-center justify-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4"></i> Tải Word (.doc)
+            </span>
+          </button>
+
+          <div class="text-[11px] text-slate-300/70">
+            Lưu ý: khi in/PDF/Word, phần đáp án sẽ <b>tự ẩn</b> để đảm bảo phát đề cho học sinh.
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 p-6 md:p-10 overflow-y-auto flex justify-center bg-slate-950/40 nice-scroll">
+    <div id="test-preview" class="bg-white p-12 md:p-16 shadow-2xl w-full max-w-[210mm] min-h-[297mm] rounded-md relative border border-slate-200">
+      <div class="flex flex-col items-center justify-center h-full text-slate-400 py-40 border-2 border-dashed border-slate-200 rounded-3xl bg-white">
+        <i data-lucide="scroll-text" class="w-12 h-12 mb-4 text-slate-300"></i>
+        <p class="text-base font-semibold text-slate-400 italic">Chọn cấu hình → Tạo đề → Xuất bản.</p>
+        <p class="text-xs mt-2 text-slate-400">Preview A4 chuẩn. Đáp án mặc định ẩn khi in.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="bank.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Tabs
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    function showTab(id){
+      document.querySelectorAll('#tab-config, #tab-content, #tab-export').forEach(el => el.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+
+      tabBtns.forEach(b => b.classList.remove('bg-white/10'));
+      tabBtns.forEach(b => b.classList.add('bg-white/5'));
+      document.querySelector(`.tab-btn[data-tab="${id}"]`).classList.add('bg-white/10');
+      document.querySelector(`.tab-btn[data-tab="${id}"]`).classList.remove('bg-white/5');
+    }
+    tabBtns.forEach(btn => btn.addEventListener('click', ()=>showTab(btn.dataset.tab)));
+    showTab('tab-config');
+
+    // Units render (no document.write)
+    const unitsGrid = document.getElementById("units-grid");
+    function renderUnits(){
+      unitsGrid.innerHTML = "";
+      for(let i=1;i<=12;i++){
+        const label = document.createElement("label");
+        label.className = "flex items-center gap-2 bg-slate-900/45 p-2.5 rounded-2xl border border-slate-700/40 cursor-pointer hover:border-blue-400/45 transition";
+        label.innerHTML = `
+          <input type="checkbox" class="unit-cb w-4 h-4 accent-blue-500" value="${i}" ${i<=3 ? "checked" : ""}>
+          <span class="text-[11px] font-bold text-slate-100">Unit ${i}</span>
+        `;
+        unitsGrid.appendChild(label);
+      }
+    }
+    renderUnits();
+
+    function toggleAllUnits(state){
+      document.querySelectorAll(".unit-cb").forEach(cb => cb.checked = state);
+    }
+
+    // Answer toggle
+    let answersVisible = false;
+    function toggleAnswerPanel(){
+      const panel = document.getElementById("answer-panel");
+      if(!panel){ alert("Chưa có đáp án. Cô hãy tạo đề trước nhé."); return; }
+      answersVisible = !answersVisible;
+      panel.classList.toggle("hidden", !answersVisible);
+    }
+
+    function resetAll(){
+      document.getElementById('local-name').value = "UBND ...";
+      document.getElementById('dept-name').value = "PHÒNG GD&ĐT ...";
+      document.getElementById('school-name').value = "TRƯỜNG THCS Lý Tự Trọng";
+      document.getElementById('grade').value = "8";
+      document.getElementById('duration').value = "60 phút";
+      document.getElementById('exam-type').value = "GIỮA KỲ I";
+      document.getElementById('exam-code').value = "01";
+      document.getElementById('subject').value = "Tiếng Anh";
+      document.getElementById('school-year').value = "2025–2026";
+      toggleAllUnits(false);
+      [1,2,3].forEach(u=>{
+        const cb = document.querySelector(`.unit-cb[value="${u}"]`);
+        if(cb) cb.checked = true;
+      });
+      document.getElementById('test-preview').innerHTML = `
+        <div class="p-12 md:p-16">
+          <div class="flex flex-col items-center justify-center text-slate-400 py-40 border-2 border-dashed border-slate-200 rounded-3xl bg-white">
+            <p class="text-base font-semibold italic">Đã reset. Cô có thể tạo đề lại.</p>
+          </div>
+        </div>`;
+    }
+
+    function generateTest(){
+      if(typeof questionBank === 'undefined'){
+        alert("Lỗi: Không tìm thấy tệp bank.js! Cô hãy kiểm tra lại.");
+        return;
+      }
+
+      const localName = (document.getElementById('local-name').value || "").trim();
+      const deptName  = (document.getElementById('dept-name').value || "").trim();
+      const school    = (document.getElementById('school-name').value || "").trim();
+
+      const grade     = document.getElementById('grade').value;
+      const duration  = (document.getElementById('duration').value || "60 phút").trim();
+      const examType  = document.getElementById('exam-type').value;
+      const examCode  = (document.getElementById('exam-code').value || "01").trim();
+      const subject   = (document.getElementById('subject').value || "Tiếng Anh").trim();
+      const year      = (document.getElementById('school-year').value || "").trim();
+
+      const selectedUnits = Array.from(document.querySelectorAll('.unit-cb:checked')).map(cb => parseInt(cb.value,10));
+      if(selectedUnits.length === 0){ alert("Vui lòng chọn ít nhất 1 Unit."); return; }
+
+      // Filter & shuffle
+      let filtered = questionBank.filter(q => selectedUnits.includes(q.unit)).sort(() => Math.random() - 0.5);
+
+      // Matrix
+      const listening = filtered.filter(q => q.type === 'listening').slice(0, 2);
+      const mcqs     = filtered.filter(q => q.type === 'mcq').slice(0, 20);
+      const reading  = filtered.filter(q => q.type === 'reading').slice(0, 1);
+      const writing  = filtered.filter(q => q.type === 'writing').slice(0, 6);
+
+      // Health hint
+      const bankText = `Ngân hàng theo Unit: ${selectedUnits.join(", ")} • L: ${listening.length}/2 • MCQ: ${mcqs.length}/20 • R: ${reading.length}/1 • W: ${writing.length}/6`;
+      const healthEl = document.getElementById('bank-health');
+      if(healthEl) healthEl.textContent = bankText;
+
+      // reset answers hidden
+      answersVisible = false;
+
+      // Build preview
+      document.getElementById('test-preview').innerHTML = `
+        <div class="p-12 md:p-16">
+          <!-- Header hành chính -->
+          <table style="width:100%; border-collapse:collapse; margin-bottom:14px;">
+            <tr>
+              <td style="width:50%; text-align:center; vertical-align:top;">
+                <div style="font-weight:700; text-transform:uppercase;">${localName || "UBND ..."}</div>
+                <div style="font-weight:700; text-transform:uppercase;">${deptName || "PHÒNG GD&ĐT ..."}</div>
+                <div style="font-weight:700; text-transform:uppercase;">${school || "TRƯỜNG ..."}</div>
+              </td>
+              <td style="width:50%; text-align:center; vertical-align:top;">
+                <div style="font-weight:700; text-transform:uppercase;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+                <div style="font-weight:700;">Độc lập – Tự do – Hạnh phúc</div>
+                <div style="margin-top:6px; border-top:1px solid #000; width:70%; margin-left:auto; margin-right:auto;"></div>
+              </td>
+            </tr>
+          </table>
+
+          <div style="text-align:center; margin-bottom:14px;">
+            <div style="font-weight:700; font-size:16px; text-transform:uppercase;">ĐỀ KIỂM TRA ${examType}</div>
+            <div style="font-weight:700; margin-top:4px;">Môn: ${subject} ${grade} • Năm học: ${year}</div>
+            <div style="font-style:italic; margin-top:2px;">Thời gian làm bài: ${duration} • Mã đề: ${examCode}</div>
+            <div style="margin-top:8px; border-top:1px solid #000; width:180px; margin-left:auto; margin-right:auto;"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; gap:12px; font-style:italic; margin-bottom:10px;">
+            <span>Họ và tên: ............................................................</span>
+            <span>Lớp: ...........</span>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; font-size:12px; margin-bottom:16px;">
+            <span style="padding:4px 10px; border:1px solid #cbd5e1; border-radius:999px;">Phạm vi: Unit ${selectedUnits.join(", ")}</span>
+            <span style="padding:4px 10px; border:1px solid #cbd5e1; border-radius:999px;">Số báo danh: ..........</span>
+          </div>
+
+          <div class="space-y-10">
+            <section>
+              <div style="font-weight:700; border-bottom:1px solid #000; padding-bottom:3px; text-transform:uppercase;">
+                PART I. LISTENING (2.0 pts)
+              </div>
+              ${listening.map((l, idx) => `
+                <div style="margin-top:12px;">
+                  <div style="font-style:italic; margin-bottom:6px;">Section ${idx+1}: ${l.instruction}</div>
+                  <div style="display:flex; flex-direction:column; gap:8px;">
+                    ${l.questions.map((q, i) => `
+                      <div style="display:flex; justify-content:space-between; padding-left:16px;">
+                        <span><b>${i+1}.</b> ${q.q}</span>
+                        <span style="font-weight:700; text-decoration: underline;">T / F</span>
+                      </div>
+                    `).join("")}
+                  </div>
+                </div>
+              `).join("")}
+            </section>
+
+            <section>
+              <div style="font-weight:700; border-bottom:1px solid #000; padding-bottom:3px; text-transform:uppercase;">
+                PART II. LANGUAGE FOCUS (5.0 pts)
+              </div>
+              <div style="margin-top:12px; display:flex; flex-direction:column; gap:14px;">
+                ${mcqs.map((q, i) => `
+                  <div>
+                    <div><b>Question ${i+1}:</b> ${q.text}</div>
+                    <div style="margin-top:4px; padding-left:16px;">
+                      ${q.options.map((opt, idx) => `
+                        <span class="word-option">${String.fromCharCode(65+idx)}. ${opt}</span>
+                      `).join("")}
+                    </div>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+
+            <section>
+              <div style="font-weight:700; border-bottom:1px solid #000; padding-bottom:3px; text-transform:uppercase;">
+                PART III. READING (1.5 pts)
+              </div>
+              ${reading.map(r => `
+                <div style="margin-top:12px;">
+                  <div style="font-style:italic; text-align:justify; line-height:1.65;">${r.passage}</div>
+                  <div style="margin-top:14px; display:flex; flex-direction:column; gap:14px;">
+                    ${r.questions.map((q, i) => `
+                      <div style="padding-left:8px;">
+                        <div><b>${i+1}.</b> ${q.q}</div>
+                        <div class="dotted-line" style="margin-top:10px;"></div>
+                      </div>
+                    `).join("")}
+                  </div>
+                </div>
+              `).join("")}
+            </section>
+
+            <section>
+              <div style="font-weight:700; border-bottom:1px solid #000; padding-bottom:3px; text-transform:uppercase;">
+                PART IV. WRITING (1.5 pts)
+              </div>
+              <div style="margin-top:12px; display:flex; flex-direction:column; gap:20px;">
+                ${writing.map((q, i) => `
+                  <div style="padding-left:8px;">
+                    <div><b>${i+1}.</b> ${q.text}</div>
+                    <div class="dotted-line" style="margin-top:14px;"></div>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+          </div>
+
+          <!-- Answer panel (hidden + print-hide) -->
+          <div id="answer-panel" class="hidden print-hide" style="margin-top:36px; padding-top:18px; border-top:2px dashed #cbd5e1;">
+            <div style="text-align:center; font-weight:700; font-size:18px; margin-bottom:14px;">
+              ĐÁP ÁN GỢI Ý (Dành cho giáo viên)
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:18px;">
+              <table style="width:100%; border-collapse:collapse; text-align:center; font-size:13px;">
+                <tr style="background:#f1f5f9; font-weight:700;">
+                  <th style="border:1px solid #94a3b8; padding:6px;">Q</th>
+                  <th style="border:1px solid #94a3b8; padding:6px;">Key</th>
+                </tr>
+                ${mcqs.map((q, i) => `
+                  <tr>
+                    <td style="border:1px solid #94a3b8; padding:5px;">${i+1}</td>
+                    <td style="border:1px solid #94a3b8; padding:5px; font-weight:700;">${q.answer}</td>
+                  </tr>
+                `).join("")}
+              </table>
+
+              <div style="border:1px solid #cbd5e1; border-radius:16px; padding:14px; background:#f8fafc;">
+                <div style="font-weight:700; margin-bottom:8px; text-transform:uppercase;">Tự luận & Nghe:</div>
+                <div style="display:flex; flex-direction:column; gap:10px; font-size:13px;">
+                  ${listening.map(l => l.questions.map((q, i) => `<div><b>L${i+1}:</b> ${q.a ?? ""}</div>`).join("")).join("")}
+                  ${reading.map(r => r.questions.map((q, i) => `<div><b>R${i+1}:</b> ${q.a ?? ""}</div>`).join("")).join("")}
+                  ${writing.map((q, i) => `<div><b>W${i+1}:</b> ${q.answer ?? ""}</div>`).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div style="margin-top:18px; font-size:12px; color:#334155; display:flex; justify-content:space-between;">
+            <span>— Hết —</span>
+            <span style="font-style:italic;">(Giám thị không giải thích gì thêm)</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function exportToWord(){
+      const school = (document.getElementById('school-name').value || "Exam").trim();
+      const fileName = `${school}.doc`.replace(/\s+/g,'_');
+
+      const previewClone = document.getElementById('test-preview').cloneNode(true);
+
+      // remove answers for Word
+      const ans = previewClone.querySelector('#answer-panel');
+      if(ans) ans.remove();
+
+      // dotted-line -> dots
+      previewClone.querySelectorAll('.dotted-line').forEach(line=>{
+        line.innerHTML = "..................................................................................................................................";
+        line.style.borderBottom = "none";
+      });
+
+      // remove classes (Tailwind) for Word stability
+      previewClone.querySelectorAll('[class]').forEach(el=>el.removeAttribute('class'));
+
+      const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><style>
+          body{font-family:'Times New Roman'; font-size:12pt; line-height:1.55;}
+          table{page-break-inside:avoid;}
+          .word-option{display:inline-block; width:23%; min-width:140px; padding-right:10px; vertical-align:top;}
+        </style></head><body>`;
+
+      const blob = new Blob(['\ufeff', header + previewClone.innerHTML + "</body></html>"], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.click();
+    }
+  </script>
+</body>
+</html>
