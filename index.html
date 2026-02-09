@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Builder Pro v5.0 - THCS Lý Tự Trọng</title>
+    <title>Exam Builder Pro v6.0 | THCS Lý Tự Trọng</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Times+New+Roman&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Times+New+Roman&display=swap');
         
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f1f5f9; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1120; color: #f1f5f9; }
 
         @media print {
             .no-print { display: none !important; }
@@ -18,45 +18,41 @@
             #test-preview { border: none; box-shadow: none; width: 100%; padding: 0; margin: 0; background: white; }
         }
         
-        #test-preview { font-family: 'Times New Roman', serif; color: #1e293b; line-height: 1.3; }
+        #test-preview { font-family: 'Times New Roman', serif; color: #1e293b; line-height: 1.5; }
         .dotted-line { border-bottom: 1.5px dotted #94a3b8; height: 1.6em; width: 100%; display: block; }
         
         .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .btn-blue { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); transition: all 0.2s; }
-        .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
+        
+        /* FIX LỖI DÍNH CHỮ KHI XUẤT WORD */
+        .option-item { display: inline-block; min-width: 22%; padding-right: 15px; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <aside class="w-full md:w-[400px] p-6 no-print h-screen flex flex-col gap-4 overflow-y-auto border-r border-slate-800 bg-slate-900 shadow-2xl">
+    <aside class="w-full md:w-[400px] p-6 no-print h-screen flex flex-col gap-4 overflow-y-auto border-r border-slate-800 bg-[#0f172a] shadow-2xl">
         <div class="flex items-center gap-3 mb-2">
             <div class="p-2 bg-blue-600 rounded-lg shadow-lg">
-                <i data-lucide="graduation-cap" class="text-white w-5 h-5"></i>
+                <i data-lucide="shield-check" class="text-white w-5 h-5"></i>
             </div>
-            <h1 class="text-lg font-bold text-white uppercase tracking-tight">ExamBuilder <span class="text-blue-500">PRO</span></h1>
+            <h1 class="text-lg font-bold text-white uppercase tracking-tight">ExamBuilder <span class="text-blue-500 italic">PRO</span></h1>
         </div>
 
         <div class="glass p-4 rounded-2xl space-y-3">
             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                <i data-lucide="school" class="w-3 h-3 text-blue-400"></i> Thông tin hành chính
+                <i data-lucide="info" class="w-3 h-3 text-blue-400"></i> Cấu hình kỳ thi
             </label>
-            <input type="text" id="school-name" value="THCS LÝ TỰ TRỌNG" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white focus:border-blue-500 outline-none">
-            <input type="text" id="school-year" value="2025 - 2026" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white focus:border-blue-500 outline-none">
-            
-            <div class="pt-2">
-                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Loại kỳ thi</label>
-                <select id="exam-type" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white focus:border-blue-500 outline-none cursor-pointer">
-                    <option value="GIỮA KỲ I">Kiểm tra Giữa kỳ I</option>
-                    <option value="CUỐI KỲ I">Kiểm tra Cuối kỳ I</option>
-                    <option value="GIỮA KỲ II">Kiểm tra Giữa kỳ II</option>
-                    <option value="CUỐI KỲ II">Kiểm tra Cuối kỳ II</option>
-                </select>
-            </div>
+            <input type="text" id="school-name" value="THCS LÝ TỰ TRỌNG" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white outline-none">
+            <select id="exam-type" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-xs text-white outline-none cursor-pointer">
+                <option value="GIỮA KỲ I">Kiểm tra Giữa kỳ I</option>
+                <option value="CUỐI KỲ I">Kiểm tra Cuối kỳ I</option>
+                <option value="GIỮA KỲ II">Kiểm tra Giữa kỳ II</option>
+                <option value="CUỐI KỲ II">Kiểm tra Cuối kỳ II</option>
+            </select>
         </div>
 
         <div class="glass p-4 rounded-2xl space-y-3">
             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                <i data-lucide="library" class="w-3 h-3 text-emerald-400"></i> Phạm vi kiến thức (12 Units)
+                <i data-lucide="book-open" class="w-3 h-3 text-emerald-400"></i> Phạm vi kiến thức (12 Units)
             </label>
             <div class="grid grid-cols-3 gap-2">
                 <script>
@@ -73,13 +69,13 @@
         </div>
 
         <div class="mt-auto space-y-3">
-            <button onclick="generateTest()" class="w-full btn-blue text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 text-xs uppercase tracking-widest shadow-xl">
+            <button onclick="generateTest()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 text-xs uppercase tracking-widest hover:bg-blue-500 transition shadow-xl active:scale-95">
                 <i data-lucide="zap" class="w-4 h-4"></i> Tạo đề 40 câu chuẩn
             </button>
             
             <div class="relative w-full" id="dropdownContainer">
-                <button id="dropdownBtn" class="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl flex justify-center items-center gap-2 text-xs uppercase tracking-widest hover:bg-slate-50 transition shadow-lg">
-                    <i data-lucide="file-down" class="w-4 h-4"></i> Xuất bản đề thi
+                <button id="dropdownBtn" class="w-full bg-white text-slate-900 font-bold py-4 rounded-2xl flex justify-center items-center gap-2 text-xs uppercase tracking-widest hover:bg-slate-50 transition shadow-md">
+                    <i data-lucide="share-2" class="w-4 h-4"></i> Xuất bản đề thi
                 </button>
                 <div id="dropdownMenu" class="hidden absolute left-0 bottom-full mb-3 w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 z-50">
                     <button onclick="window.print()" class="flex items-center gap-3 w-full text-left px-5 py-3.5 hover:bg-blue-50 border-b border-slate-100 text-xs font-bold text-slate-700">
@@ -95,9 +91,9 @@
 
     <main class="flex-1 p-6 md:p-10 overflow-y-auto flex justify-center bg-slate-950">
         <div id="test-preview" class="bg-white p-12 md:p-20 shadow-2xl w-full max-w-[210mm] min-h-[297mm] rounded-sm relative">
-            <div class="flex flex-col items-center justify-center h-full text-slate-300 py-60 border-2 border-dashed border-slate-100 rounded-3xl">
+            <div class="flex flex-col items-center justify-center h-full text-slate-300 py-60 border-2 border-dashed border-slate-200 rounded-3xl">
                 <i data-lucide="file-plus" class="w-12 h-12 mb-4"></i>
-                <p class="text-sm font-medium">Chọn thông số và nhấn "Tạo đề" để bắt đầu</p>
+                <p class="text-sm font-medium italic">Chọn thông số và nhấn "Tạo đề" để bắt đầu</p>
             </div>
         </div>
     </main>
@@ -113,9 +109,7 @@
 
         function getGridClass(options) {
             const maxLen = Math.max(...options.map(opt => opt.length));
-            if (maxLen <= 12) return 'grid-cols-4';
-            if (maxLen <= 25) return 'grid-cols-2';
-            return 'grid-cols-1';
+            return maxLen <= 12 ? 'grid-cols-4' : (maxLen <= 25 ? 'grid-cols-2' : 'grid-cols-1');
         }
 
         function generateTest() {
@@ -125,37 +119,35 @@
             }
 
             const school = document.getElementById('school-name').value;
-            const year = document.getElementById('school-year').value;
             const examType = document.getElementById('exam-type').value;
             const selectedUnits = Array.from(document.querySelectorAll('.unit-cb:checked')).map(cb => parseInt(cb.value));
             
             let filtered = questionBank.filter(q => selectedUnits.includes(q.unit)).sort(() => Math.random() - 0.5);
 
             // MA TRẬN 40 CÂU CHUẨN
-            const listening = filtered.filter(q => q.type === 'listening').slice(0, 2); // 2 bài (8 câu)
-            const mcqs = filtered.filter(q => q.type === 'mcq').slice(0, 20);           // 20 câu
-            const reading = filtered.filter(q => q.type === 'reading').slice(0, 1);     // 1 bài (6 câu)
-            const writing = filtered.filter(q => q.type === 'writing').slice(0, 6);     // 6 câu
+            const listening = filtered.filter(q => q.type === 'listening').slice(0, 2); 
+            const mcqs = filtered.filter(q => q.type === 'mcq').slice(0, 20);           
+            const reading = filtered.filter(q => q.type === 'reading').slice(0, 1);     
+            const writing = filtered.filter(q => q.type === 'writing').slice(0, 6);     
 
             document.getElementById('test-preview').innerHTML = `
                 <div class="text-center mb-8">
                     <h2 class="font-bold text-lg uppercase">${school}</h2>
-                    <p class="font-bold text-sm">Năm học: ${year}</p>
-                    <div class="w-32 h-0.5 bg-black mx-auto my-3"></div>
                     <h1 class="text-xl font-bold uppercase mt-2">ĐỀ KIỂM TRA ${examType}</h1>
                     <p class="text-sm italic">Môn: Tiếng Anh 8 — Thời gian làm bài: 60 phút</p>
                 </div>
                 
-                <div class="mb-6 italic text-[14px] border-b border-black pb-1">
-                    Họ và tên: ............................................................ Lớp: ...........
+                <div class="mb-6 italic text-[14px] flex justify-between">
+                    <span>Họ và tên: ............................................................</span>
+                    <span>Lớp: ...........</span>
                 </div>
 
                 <div class="space-y-8">
                     <section>
-                        <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase tracking-tight">PART I. LISTENING (2.0 pts)</h3>
+                        <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase">PART I. LISTENING (2.0 pts)</h3>
                         ${listening.map((l, idx) => `
                             <div class="mb-4">
-                                <p class="text-[14px] italic mb-2">Bài ${idx+1}: ${l.instruction}</p>
+                                <p class="text-[14px] italic mb-2">Section ${idx+1}: ${l.instruction}</p>
                                 <div class="space-y-2">
                                     ${l.questions.map((q, i) => `
                                         <div class="flex justify-between text-[14px] pl-4">
@@ -169,14 +161,14 @@
                     </section>
 
                     <section>
-                        <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase tracking-tight">PART II. LANGUAGE FOCUS (5.0 pts)</h3>
-                        <div class="space-y-3">
+                        <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase">PART II. LANGUAGE FOCUS (5.0 pts)</h3>
+                        <div class="space-y-5">
                             ${mcqs.map((q, i) => `
                                 <div class="text-[14px]">
                                     <p><strong>Question ${i+1}:</strong> ${q.text}</p>
-                                    <div class="grid ${getGridClass(q.options)} mt-1 pl-4">
+                                    <div class="mt-1 pl-4">
                                         ${q.options.map((opt, idx) => `
-                                            <span style="display: inline-block; min-width: 150px;">
+                                            <span class="option-item">
                                                 ${String.fromCharCode(65+idx)}. ${opt}
                                             </span>`).join('')}
                                     </div>
@@ -186,10 +178,10 @@
                     </section>
 
                     <section>
-                        <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase tracking-tight">PART III. READING (1.5 pts)</h3>
+                        <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase">PART III. READING (1.5 pts)</h3>
                         ${reading.map(r => `
                             <p class="italic mb-4 text-justify text-[14px] leading-relaxed">${r.passage}</p>
-                            <div class="space-y-4">
+                            <div class="space-y-5">
                                 ${r.questions.map((q, i) => `
                                     <div class="pl-2">
                                         <p class="text-[14px]"><strong>${i+1}.</strong> ${q.q}</p>
@@ -201,32 +193,16 @@
                     </section>
 
                     <section>
-                        <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase tracking-tight">PART IV. WRITING (1.5 pts)</h3>
-                        <div class="space-y-6">
+                        <h3 class="font-bold mb-4 border-b border-black pb-0.5 uppercase">PART IV. WRITING (1.5 pts)</h3>
+                        <div class="space-y-10">
                             ${writing.map((q, i) => `
                                 <div class="pl-2">
                                     <p class="text-[14px]"><strong>${i+1}.</strong> ${q.text}</p>
-                                    <div class="dotted-line mt-4"></div>
+                                    <div class="dotted-line mt-5"></div>
                                 </div>
                             `).join('')}
                         </div>
                     </section>
-                </div>
-
-                <div class="page-break pt-10 border-t-2 border-dashed mt-20 no-print">
-                    <h2 class="text-center font-bold text-xl mb-6 underline uppercase text-blue-800 italic">Answer Key (Mã đề tự động)</h2>
-                    <div class="grid grid-cols-2 gap-10 text-[13px]">
-                        <table class="border-collapse border border-gray-400 w-full text-center">
-                            <tr class="bg-gray-100 font-bold"><th class="border border-gray-400 p-1">Q</th><th class="border border-gray-400 p-1">Key</th></tr>
-                            ${mcqs.map((q, i) => `<tr><td class="border border-gray-400">${i+1}</td><td class="border border-gray-400 font-bold text-blue-600">${q.answer}</td></tr>`).join('')}
-                        </table>
-                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                            <h4 class="font-bold mb-2 border-b border-blue-200 uppercase">Tự luận & Nghe:</h4>
-                            ${listening.map(l => l.questions.map((q, i) => `<p><strong>L${i+1}:</strong> ${q.a}</p>`).join('')).join('')}
-                            ${reading.map(r => r.questions.map((q, i) => `<p><strong>R${i+1}:</strong> ${q.a}</p>`).join('')).join('')}
-                            ${writing.map((q, i) => `<p><strong>W${i+1}:</strong> ${q.answer}</p>`).join('')}
-                        </div>
-                    </div>
                 </div>
             `;
         }
@@ -236,10 +212,17 @@
             const fileName = `${school}.doc`.replace(/\s+/g, '_');
             let previewClone = document.getElementById('test-preview').cloneNode(true);
             previewClone.querySelectorAll('.dotted-line').forEach(line => line.innerHTML = "..................................................................................................................................");
-            const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:'Times New Roman';} .grid{display:block;} .grid span{display:inline-block; width:24%; padding-right: 10px;}</style></head><body>`;
+            
+            const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head><meta charset='utf-8'><style>
+                    body{font-family:'Times New Roman'; font-size: 12pt;} 
+                    .option-item { display: inline-block; width: 23%; }
+                </style></head><body>`;
+            
             const blob = new Blob(['\ufeff', header + previewClone.innerHTML + "</body></html>"], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob); link.download = fileName; link.click();
+            link.href = url; link.download = fileName; link.click();
         }
     </script>
 </body>
